@@ -1,0 +1,28 @@
+.Picked_col {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.Picked_result {
+  padding: 0 50px;
+}
+
+.Picked_title {
+  margin-bottom: 20px;
+}
+
+.Picked_icon {
+  width: 100px;
+  height: 100px;
+}
+
+.Picked_house_bot{
+  height: 100%;
+}
+// .
+.Picked_house_picking {
+  width: 75px;
+  height: 75px;
+  background-color: rgb(112, 108, 108);
+}
