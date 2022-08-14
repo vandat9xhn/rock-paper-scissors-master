@@ -1,4 +1,5 @@
 import * as React from "react";
+import { IS_MOBILE } from "../../../constant";
 
 import { handlePickType, IconName } from "../../../type";
 
@@ -44,10 +45,12 @@ function ChoiceItem({ icon_name, src, border, handlePick }: ChoiceItemProps) {
       style={{
         boxShadow: is_press
           ? "0 0 transparent"
-          : `0 6px 0 0 #0000002b, 0 6px 0 0 ${border}`,
+          : `0 6px 0 0 #0000002b, 0 ${IS_MOBILE ? 4 : 6}px 0 0 ${border}`,
       }}
       onMouseDown={handleDown}
       onMouseUp={handleUp}
+      onTouchStart={handleDown}
+      onTouchEnd={handleUp}
     >
       <IconItem border={border} src={src} />
     </div>

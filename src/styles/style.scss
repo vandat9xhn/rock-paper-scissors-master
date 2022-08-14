@@ -23,6 +23,18 @@ body {
   margin-bottom: 120px;
 }
 
+// ----
+
+.device-mobile {
+  .App {
+    width: 375px;
+    padding: 20px;
+    overflow: hidden;
+  }
+}
+
+// ------
+
 //
 .flex {
   display: flex;

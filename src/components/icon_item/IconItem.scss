@@ -1,9 +1,18 @@
 .IconItem {
   background-image: linear-gradient(to top, #f6f2f3, #dadada);
+  border: 15px solid;
   user-select: none;
 }
 
 .IconItem_img {
   width: 50%;
   height: 50%;
+}
+
+// 
+
+.device-mobile{
+  .IconItem{
+    border: 8px solid;
+  }
 }

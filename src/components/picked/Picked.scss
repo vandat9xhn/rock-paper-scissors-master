@@ -1,3 +1,7 @@
+.Picked {
+  padding-bottom: 100px;
+}
+
 .Picked_col {
   flex-grow: 1;
   display: flex;
@@ -5,7 +9,7 @@
 }
 
 .Picked_result {
-  padding: 0 50px;
+  padding: 0 75px;
 }
 
 .Picked_title {
@@ -13,11 +17,16 @@
 }
 
 .Picked_icon {
-  width: 100px;
-  height: 100px;
+  width: 175px;
+  height: 175px;
+  border-radius: 50%;
+}
+.Picked_icon-win {
+  box-shadow: 0 0 0 20px rgba(255, 255, 255, 0.025),
+    0 0 0 60px rgba(255, 255, 255, 0.05), 0 0 0 100px rgba(255, 255, 255, 0.1);
 }
 
-.Picked_house_bot{
+.Picked_house_bot {
   height: 100%;
 }
 // .
@@ -25,4 +34,40 @@
   width: 75px;
   height: 75px;
   background-color: rgb(112, 108, 108);
+}
+
+//
+
+.device-mobile {
+  .Picked {
+    width: 100%;
+  }
+
+  .Picked_row {
+    justify-content: space-between;
+  }
+
+  .Picked_col {
+    flex-direction: column-reverse;
+  }
+
+  .Picked_title {
+    margin-bottom: 0;
+    margin-top: 15px;
+    font-size: 13px;
+  }
+
+  .Picked_icon {
+    width: 100px;
+    height: 100px;
+  }
+  .Picked_icon-win {
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.025),
+      0 0 0 20px rgba(255, 255, 255, 0.05), 0 0 0 40px rgba(255, 255, 255, 0.1);
+  }
+
+  .Picked_result {
+    margin-top: 75px;
+    padding: 0;
+  }
 }

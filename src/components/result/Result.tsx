@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import "./Result.scss";
+
 //
 export interface ResultProps {
   change_score: 0 | -1 | 1;
@@ -10,14 +12,18 @@ export interface ResultProps {
 function Result({ change_score, playAgain }: ResultProps) {
   //
   return (
-    <div className="Result text-center">
-      <div>
+    <div className="Result flex justify-center text-center">
+      <div className="Result_win">
         YOU{" "}
         {change_score === 1 ? "WIN" : change_score === -1 ? "LOSE" : "NOT WIN"}
       </div>
 
       <div>
-        <button className="cursor-pointer" type="button" onClick={playAgain}>
+        <button
+          className="Result_btn cursor-pointer"
+          type="button"
+          onClick={playAgain}
+        >
           PLAY AGAIN
         </button>
       </div>

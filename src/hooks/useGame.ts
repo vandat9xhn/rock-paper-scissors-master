@@ -60,6 +60,7 @@ export function useGame() {
   const changeIsBonus = (_is_bonus = true) => {
     setStateObj((state_obj) => ({
       ...state_obj,
+      ...getInitialGame(_is_bonus),
       is_bonus: _is_bonus,
     }));
   };
@@ -99,6 +100,7 @@ export function useGame() {
       ...state_obj,
       ...getInitialState(),
       ...getInitialGame(state_obj.is_bonus),
+      is_bonus: state_obj.is_bonus,
       house_icon: undefined,
       icon_name: undefined,
     }));

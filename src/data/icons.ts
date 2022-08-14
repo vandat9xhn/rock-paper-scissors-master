@@ -54,9 +54,9 @@ const ICON3_NAME_ARR: IconName[] = ["scissors", "paper", "rock"];
 
 //
 const ICONS3_BEAT = {
-  scissors: new Set(PAPER),
-  paper: new Set(ROCK),
-  rock: new Set(SCISSORS),
+  scissors: new Set([PAPER]),
+  paper: new Set([ROCK]),
+  rock: new Set([SCISSORS]),
 };
 
 const ICONS5_BEAT = {
@@ -72,7 +72,7 @@ export const getInitialGame = (is_bonus = true) => {
   const icons_obj = is_bonus ? ICONS5 : ICONS3;
   const icon_name_arr = is_bonus ? ICON5_NAME_ARR : ICON3_NAME_ARR;
   const game_name = (
-    is_bonus ? [ROCK, PAPER, SCISSORS, SPOCK, LIZARD] : [ROCK, PAPER, SCISSORS]
+    is_bonus ? [ROCK, PAPER, SCISSORS, SPOCK, LIZARD] : [PAPER, SCISSORS, ROCK]
   ).join("\n");
 
   return {
@@ -91,6 +91,7 @@ export const getChangeScore = (
   const icons_beat = is_bonus ? ICONS5_BEAT : ICONS3_BEAT;
   const obj1 = icons_beat[icon_name] as Set<string>;
   const obj2 = icons_beat[house_icon] as Set<string>;
+
   const is_win = obj1.has(house_icon);
   const is_defeat = obj2.has(icon_name);
 

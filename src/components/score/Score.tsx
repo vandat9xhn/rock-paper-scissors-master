@@ -15,7 +15,11 @@ function Score({}: ScoreProps) {
   //
   return (
     <div className="Score flex">
-      <div className="Score_name">{game_name}</div>
+      <div className="Score_name">
+        {game_name.split("\n").map((item) => (
+          <div key={item}>{item}</div>
+        ))}
+      </div>
 
       <div className="Score_right">
         <div className="Score_title">SCORE</div>
