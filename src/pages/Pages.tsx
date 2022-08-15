@@ -2,8 +2,9 @@ import * as React from "react";
 
 import contextAPI from "../context/contextAPI";
 
-import Choices from "../components/choices/_main/Choices";
-import Picked from "../components/picked/Picked";
+import Login from "./login/Login";
+import RoomList from "./room/list/RoomList";
+import RoomItem from "./room/item/RoomItem";
 
 import "./Pages.scss";
 
@@ -13,20 +14,23 @@ export interface PagesProps {}
 //
 function Pages({}: PagesProps) {
   //
-  const { icon_name } = React.useContext(contextAPI);
+  const { user, room_ix, handleLogin } = React.useContext(contextAPI);
 
   // ----
 
   //
-  if (!icon_name) {
-    return (
-      <div className="Pages_choices">
-        <Choices />
-      </div>
-    );
+  if (!user) {
+    return <Login handleLogin={handleLogin} />;
   }
 
-  return <Picked />;
+  // 
+  if (room_ix < 0) {
+    return <RoomList />
+  }
+
+  return <RoomItem />
+
+  
 }
 
 export default Pages;

@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { IS_MOBILE } from "../../constant";
 import contextAPI from "../../context/contextAPI";
 import Portal from "../portal/Portal";
 
@@ -7,7 +8,6 @@ import rule_bonus from "../../../images/image-rules-bonus.svg";
 import rule from "../../../images/image-rules.svg";
 import icon_close from "../../../images/icon-close.svg";
 import "./Actions.scss";
-import { IS_MOBILE } from "../../constant";
 
 //
 export interface ActionsProps {}
