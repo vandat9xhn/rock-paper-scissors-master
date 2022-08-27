@@ -10,7 +10,7 @@ export interface ScoreProps {}
 //
 function Score({}: ScoreProps) {
   //
-  const { game_name, score } = React.useContext(contextAPI);
+  const { game_name, user } = React.useContext(contextAPI);
 
   //
   return (
@@ -22,9 +22,9 @@ function Score({}: ScoreProps) {
       </div>
 
       <div className="Score_right">
-        <div className="Score_title">SCORE</div>
+        <div className="Score_title">YOUR SCORE</div>
 
-        <div className="Score_num">{score}</div>
+        <div className="Score_num">{user.score}</div>
       </div>
     </div>
   );

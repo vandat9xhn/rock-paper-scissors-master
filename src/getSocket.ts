@@ -1,5 +1,6 @@
-import { io } from 'socket.io-client';
+import { io } from "socket.io-client";
 
-const getSocket = () => io('http://localhost:4000');
+const getSocket = () => io("http://localhost:4000");
+const socket = getSocket();
 
-export { getSocket };
+export { getSocket, socket };

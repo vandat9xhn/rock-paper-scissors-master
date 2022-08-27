@@ -3,6 +3,7 @@ import * as React from "react";
 import { IS_MOBILE } from "./constant";
 
 import ContextAPIComponent from "./context/ContextAPIComponent";
+import Layout from "./components/layout/Layout";
 import Pages from "./pages/Pages";
 
 import "./styles/style.scss";
@@ -24,9 +25,11 @@ function App({}: AppProps) {
   return (
     <ContextAPIComponent>
       <div className="App">
-        <div className="flex justify-center">
-          <Pages />
-        </div>
+        <Layout>
+          <div className="flex justify-center">
+            <Pages />
+          </div>
+        </Layout>
       </div>
     </ContextAPIComponent>
   );

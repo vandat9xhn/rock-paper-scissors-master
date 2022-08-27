@@ -15,7 +15,7 @@ export interface ActionsProps {}
 //
 function Actions({}: ActionsProps) {
   //
-  const { icon_name, is_bonus, changeIsBonus } = React.useContext(contextAPI);
+  const { is_player1, room, changeIsBonus } = React.useContext(contextAPI);
 
   //
   const [show_rules, setShowRules] = React.useState(false);
@@ -24,11 +24,15 @@ function Actions({}: ActionsProps) {
 
   //
   const handleGameBonus = () => {
-    changeIsBonus();
+    if (is_player1) {
+      changeIsBonus(true);
+    }
   };
 
   const handleGameNormal = () => {
-    changeIsBonus(false);
+    if (is_player1) {
+      changeIsBonus(false);
+    }
   };
 
   const openRules = () => {
@@ -42,11 +46,14 @@ function Actions({}: ActionsProps) {
   //
   return (
     <div className="Actions">
-      {icon_name ? null : (
+      {room.playing_state !== "waiting" ? null : (
         <React.Fragment>
           <button
             type="button"
-            className={`Actions_btn ${is_bonus ? "Actions_btn-active" : ""}`}
+            className={`Actions_btn ${
+              room.is_bonus ? "Actions_btn-active" : ""
+            }`}
+            disabled={!is_player1}
             onClick={handleGameBonus}
           >
             Bonus
@@ -54,7 +61,10 @@ function Actions({}: ActionsProps) {
 
           <button
             type="button"
-            className={`Actions_btn ${is_bonus ? "" : "Actions_btn-active"}`}
+            className={`Actions_btn ${
+              room.is_bonus ? "" : "Actions_btn-active"
+            }`}
+            disabled={!is_player1}
             onClick={handleGameNormal}
           >
             Normal
@@ -78,7 +88,7 @@ function Actions({}: ActionsProps) {
                 <div className="Actions_rules_tile">RULES</div>
               ) : null}
 
-              <img src={is_bonus ? rule_bonus : rule} alt="" />
+              <img src={room.is_bonus ? rule_bonus : rule} alt="" />
             </div>
 
             <div className="Actions_rules_close">

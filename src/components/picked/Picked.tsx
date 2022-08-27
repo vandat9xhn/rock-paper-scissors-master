@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { IS_MOBILE } from "../../constant";
 import contextAPI from "../../context/contextAPI";
 
@@ -8,60 +9,109 @@ import Result from "../result/Result";
 import "./Picked.scss";
 
 //
+const ItemPicking = ({
+  is_win,
+  has_pick,
+  border,
+  src,
+}: {
+  is_win: boolean;
+  has_pick: boolean;
+  src: string;
+  border: string;
+}) => {
+  return (
+    <div className="Picked_item flex justify-center items-center">
+      {!has_pick ? (
+        <div className="Picked_item_picking brs-50per"></div>
+      ) : (
+        <div
+          className={`Picked_item_picked Picked_icon ${
+            is_win ? "Picked_icon-win" : ""
+          }`}
+        >
+          <IconItem border={border} src={src} />
+        </div>
+      )}
+    </div>
+  );
+};
+
+//
 export interface PickedProps {}
 
 //
 function Picked({}: PickedProps) {
   //
-  const { icons_obj, house_icon, icon_name, change_score, playAgain } =
-    React.useContext(contextAPI);
+  const {
+    icons_obj,
+    room,
+    player1,
+    player2,
+    is_player1,
+    is_player2,
+    playAgain,
+  } = React.useContext(contextAPI);
+
+  //
+  const ending = room.playing_state === "ending";
+  const is_player1_win = player1 && player1.is_winner;
+  const is_player2_win = player2 && player2.is_winner;
+  const is_you_win =
+    (is_player1 && is_player1_win) || (is_player2 && is_player2_win);
+  const win_str =
+    room.winner_name === ""
+      ? "no winner"
+      : `${
+          is_you_win ? "you" : is_player1_win ? player1.name : player2.name
+        } win`;
 
   //
   return (
     <div className="Picked">
       <div className="Picked_row flex">
         <div className="Picked_col">
-          <div className="Picked_title text-center">YOU PICKED</div>
-
-          <div className="flex justify-center items-center">
-            <div
-              className={`Picked_icon ${
-                change_score === 1 ? "Picked_icon-win" : ""
-              }`}
-            >
-              <IconItem {...icons_obj[icon_name]} />
-            </div>
+          <div className="Picked_title text-center">
+            {is_player1 ? "you" : player1 ? player1.name : "player1"} picked
           </div>
+
+          <ItemPicking
+            is_win={is_player1_win}
+            has_pick={player1.has_pick}
+            {...icons_obj[player1.icon_name]}
+          />
         </div>
 
-        {!house_icon || IS_MOBILE ? null : (
+        {!ending || IS_MOBILE ? null : (
           <div className="Picked_result">
-            <Result change_score={change_score} playAgain={playAgain} />
+            <Result
+              is_player1={is_player1}
+              win_str={win_str}
+              playAgain={playAgain}
+            />
           </div>
         )}
 
         <div className="Picked_col">
-          <div className="Picked_title text-center">THE HOUSE PICKED</div>
-
-          <div className="Picked_house_bot flex justify-center items-center">
-            {!house_icon ? (
-              <div className="Picked_house_picking brs-50per"></div>
-            ) : (
-              <div
-                className={`Picked_house_picked Picked_icon ${
-                  change_score === -1 ? "Picked_icon-win" : ""
-                }`}
-              >
-                <IconItem {...icons_obj[house_icon]} />
-              </div>
-            )}
+          <div className="Picked_title text-center">
+            {is_player2 ? "you" : player2 ? player2.name : "PLAYER2"} PICKED
           </div>
+
+          <ItemPicking
+            is_win={is_player2_win}
+            has_pick={player2.has_pick}
+            {...icons_obj[player2.icon_name]}
+          />
         </div>
       </div>
 
-      {!house_icon || !IS_MOBILE ? null : (
+      {!ending || !IS_MOBILE ? null : (
         <div className="Picked_result">
-          <Result change_score={change_score} playAgain={playAgain} />
+          <Result
+            is_player1={is_player1}
+            win_str={win_str}
+            playAgain={playAgain}
+          />
         </div>
       )}
     </div>

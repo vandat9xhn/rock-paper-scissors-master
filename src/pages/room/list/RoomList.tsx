@@ -15,8 +15,18 @@ function RoomList({}: RoomListProps) {
     <div>
       {rooms.map((item, ix) => (
         <div key={item.id}>
-          <button type="button" onClick={() => joinRoom(item.id)}>
-            {item.name}: {item.users.length} people
+          <button
+            className="cursor-pointer"
+            type="button"
+            onClick={() => joinRoom(item.id)}
+          >
+            <div>
+              {item.name}: {item.playing_state}
+            </div>
+
+            <div>Viewer: {item.viewers.length}</div>
+
+            <div>Player: {item.players.length}</div>
           </button>
         </div>
       ))}

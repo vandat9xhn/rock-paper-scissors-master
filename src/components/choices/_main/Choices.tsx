@@ -1,12 +1,13 @@
 import * as React from "react";
 
+import contextAPI from "../../../context/contextAPI";
+import { handlePickType } from "../../../type";
+
 import ChoiceItem from "../item/ChoiceItem";
 
 import pentagon from "../../../../images/bg-pentagon.svg";
 import triangle from "../../../../images/bg-triangle.svg";
-
 import "./Choices.scss";
-import contextAPI from "../../../context/contextAPI";
 
 //
 export interface ChoicesProps {}
@@ -14,11 +15,19 @@ export interface ChoicesProps {}
 //
 function Choices({}: ChoicesProps) {
   //
-  const { icons_obj, icon_name_arr, is_bonus, handlePick } =
+  const { rooms, ix_room, is_player, icons_obj, icon_name_arr, handlePick } =
     React.useContext(contextAPI);
 
-  //
+  const is_bonus = rooms[ix_room].is_bonus;
   const bg = icon_name_arr.length === 5 ? pentagon : triangle;
+
+  // ----
+
+  const onPick: handlePickType = (icon_name) => {
+    if (is_player) {
+      handlePick(icon_name);
+    }
+  };
 
   //
   return (
@@ -49,7 +58,7 @@ function Choices({}: ChoicesProps) {
               <ChoiceItem
                 icon_name={item}
                 {...icons_obj[item]}
-                handlePick={handlePick}
+                handlePick={onPick}
               />
             </div>
           </div>

@@ -10,28 +10,44 @@ export interface LoginProps {
 //
 function Login({ handleLogin }: LoginProps) {
   //
-  const refIp = React.useRef<HTMLInputElement>(null);
+  const refUsername = React.useRef<HTMLInputElement>(null);
+  const refPassword = React.useRef<HTMLInputElement>(null);
 
   //
-  const onLogin = () => {
-    const user_name = refIp.current.value;
-    if (user_name) {
-      handleLogin(user_name);
+  const onLogin: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.preventDefault();
+    const username = refUsername.current.value;
+    const password = refPassword.current.value;
+
+    if (username && password) {
+      handleLogin(username, password);
     }
   };
 
   //
   return (
     <div className="Login">
-      <div>Your Name:</div>
+      <form>
+        <div>
+          <div>Username</div>
 
-      <div>
-        <input ref={refIp} type="text" />
-      </div>
+          <div>
+            <input ref={refUsername} type="text" />
+          </div>
+        </div>
 
-      <button type="button" onClick={onLogin}>
-        Join
-      </button>
+        <div>
+          <div>Password</div>
+
+          <div>
+            <input ref={refPassword} type="text" />
+          </div>
+        </div>
+
+        <button type="submit" onClick={onLogin}>
+          Login
+        </button>
+      </form>
     </div>
   );
 }

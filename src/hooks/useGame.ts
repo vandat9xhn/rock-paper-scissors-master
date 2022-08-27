@@ -1,229 +1,188 @@
 import * as React from "react";
 
-import {
-  handleLoginType,
-  handlePickType,
-  IconName,
-  IconsObj,
-  Room,
-  User,
-} from "../type";
-import { getInitialGame, getChangeScore } from "../data/icons";
-import { getSocket } from "../getSocket";
+import { AppStateObj } from "../type";
+import { socket } from "../getSocket";
 
-//
-const socket = getSocket();
-
-//
-interface useGameState {
-  user?: User;
-  users: User[];
-  room_ix: number;
-  rooms: Room[];
-
-  is_bonus: boolean;
-  icon_name_arr: IconName[];
-  icons_obj: IconsObj;
-  game_name: string;
-
-  house_icon?: IconName;
-  icon_name?: IconName;
-  change_score: 0 | 1 | -1;
-  score: number;
-}
+import { useLogin } from "./useLogin";
+import { useLogout } from "./useLogout";
+import { useJoinRoom } from "./useJoinRoom";
+import { useOutRoom } from "./useOutRoom";
+import { useBecomePlayer } from "./useBecomePlayer";
+import { useBecomeViewer } from "./useBecomeViewer";
+import { useChangeIsBonus } from "./useChangeIsBonus";
+import { usePick } from "./usePick";
+import { useRegister } from "./useRegister";
+import { useStartPlay } from "./useStartPlay";
+import { useVote } from "./useVote";
+import { useRestart } from "./useRestart";
+import { useDisconnect } from "./useDisconnect";
+import { SOCKET_EVENTS } from "../data/socket_events";
+import { removeEventsSocket } from "../utils/removeEventsSocket";
 
 //
 export function useGame() {
   //
-  const [state_obj, setStateObj] = React.useState<useGameState>({
+  const [state_obj, setStateObj] = React.useState<AppStateObj>({
     // user: "",
+    logging_saved_account: true,
     users: [],
     rooms: [],
-    room_ix: -1,
+    ix_room: -1,
 
-    is_bonus: true,
     icon_name_arr: [],
     icons_obj: {},
     game_name: "",
+  });
 
-    // house_icon: "",
-    // icon_name: "",
-    change_score: 0,
-    score: 0,
+  //
+  const room = state_obj.rooms[state_obj.ix_room];
+  const player1 = room ? room.players[0] : undefined;
+  const player2 = room ? room.players[1] : undefined;
+  const is_player1 = player1 ? player1.id === state_obj.user.id : undefined;
+  const is_player2 = player2 ? player2.id === state_obj.user.id : undefined;
+  const is_player = is_player1 || is_player2;
+
+  // ----
+
+  const { emitRegister, onRegisterFail } = useRegister({
+    handleNewStateObj: setStateObj,
+  });
+  const { emitLoginSaved, emitLogin, onLoginSuccess, onLoginFail } = useLogin({
+    handleNewStateObj: setStateObj,
+  });
+  const { emitLogout, onLogout, onRoomerLogout } = useLogout({
+    handleNewStateObj: setStateObj,
+  });
+
+  const { emitJoinRoom, onJoinRoom, onUserJoinRoom } = useJoinRoom({
+    handleNewStateObj: setStateObj,
+  });
+  const { emitOutRoom, onOutRoom } = useOutRoom({
+    handleNewStateObj: setStateObj,
+  });
+  const { emitBecomePlayer, onBecomePlayer } = useBecomePlayer({
+    handleNewStateObj: setStateObj,
+  });
+  const { emitBecomeViewer, onBecomeViewer } = useBecomeViewer({
+    handleNewStateObj: setStateObj,
+  });
+  const { emitChangeIsBonus, onChangeIsBonus } = useChangeIsBonus({
+    handleNewStateObj: setStateObj,
+  });
+
+  const { emitStartPlay, onStartPlay } = useStartPlay({
+    handleNewStateObj: setStateObj,
+  });
+  const { emitPick, onPick, onPickDone } = usePick({
+    handleNewStateObj: setStateObj,
+  });
+  const { emitVote, onVote } = useVote({
+    handleNewStateObj: setStateObj,
+  });
+  const { emitRestart, onRestart } = useRestart({
+    handleNewStateObj: setStateObj,
+  });
+
+  const {
+    onUserDisconnect,
+    onViewerDisconnect,
+    onPlayerDisconnect,
+    onPlayingDisconnect,
+  } = useDisconnect({
+    handleNewStateObj: setStateObj,
   });
 
   //
   React.useEffect(() => {
-    handleInitial();
+    onLoginSuccess();
+    onRegisterFail();
+    onLoginFail();
   }, []);
 
-  // ----
+  React.useEffect(() => {
+    if (!!state_obj.user) {
+      onJoinRoom();
+      onUserJoinRoom()
+      onOutRoom();
+      onBecomePlayer();
+      onBecomeViewer();
+      onChangeIsBonus();
 
-  const handleInitial = () => {
-    setStateObj((state_obj) => ({
-      ...state_obj,
-      ...getInitialGame(state_obj.is_bonus),
-    }));
-  };
+      onStartPlay();
+      onPick();
+      onVote();
+      onPickDone();
+      onRestart();
 
-  const handleLogin: handleLoginType = (_user_name) => {
-    socket.emit("login", _user_name);
-    socket.on("login", (user: User, users: User[], rooms: Room[]) => {
-      // console.log(user, users, rooms);
-      
-      setStateObj((state_obj) => ({
-        ...state_obj,
-        user: user,
-        users: users,
-        rooms: rooms,
-      }));
+      onUserDisconnect();
+      onViewerDisconnect();
+      onPlayerDisconnect();
+      onPlayingDisconnect();
+    } else {
+      removeEventsSocket([
+        SOCKET_EVENTS.JOIN_ROOM,
+        SOCKET_EVENTS.OUT_ROOM,
+        SOCKET_EVENTS.BECOME_PLAYER,
+        SOCKET_EVENTS.BECOME_VIEWER,
+        SOCKET_EVENTS.CHANGE_IS_BONUS,
 
-      socket.on("user_login", (user: User) => {
-        setStateObj((state_obj) => ({
-          ...state_obj,
-          users: [...state_obj.users, user],
-        }));
-      });
-    });
-  };
+        SOCKET_EVENTS.PLAY_GAME,
+        SOCKET_EVENTS.PICK,
+        SOCKET_EVENTS.VOTE,
+        SOCKET_EVENTS.PICK_DONE,
+        SOCKET_EVENTS.RESTART,
 
-  const joinRoom = (room_id = 0) => {
-    socket.emit("join_room", room_id);
-    socket.on("join_room", (user_id: number) => {
-      console.log(user_id);
+        SOCKET_EVENTS.USER_DISCONNECT,
+        SOCKET_EVENTS.VIEWER_DISCONNECT,
+        SOCKET_EVENTS.PLAYER_DISCONNECT,
+        SOCKET_EVENTS.PLAYING_DISCONNECT,
+      ]);
+    }
+  }, [!state_obj.user]);
 
-      const user_ix = state_obj.users.findIndex((item) => item.id === user_id);
-      const room_ix = state_obj.rooms.findIndex((item) => item.id === room_id);
-      setStateObj((state_obj) => {
-        const rooms = [...state_obj.rooms];
-        rooms[room_ix].users.push(state_obj.users[user_ix]);
-        return {
-          ...state_obj,
-          rooms: rooms,
-        };
-      });
-    });
+  // ------ EMIT
 
-    socket.on("out_room", (user_id: number) => {
-      const user_ix = state_obj.users.findIndex((item) => item.id === user_id);
-      const room_ix = state_obj.rooms.findIndex((item) => item.id === room_id);
-      setStateObj((state_obj) => {
-        const rooms = [...state_obj.rooms];
-        rooms[room_ix].users.splice(user_ix, 1);
-        return {
-          ...state_obj,
-          rooms: rooms,
-        };
-      });
-    });
-  };
+  const handleRegister = emitRegister;
+  const handleLoginSavedAccount = emitLoginSaved;
+  const handleLogin = emitLogin;
 
-  const outRoom = () => {
-    socket.emit("out_room");
-    setStateObj((state_obj) => {
-      return {
-        ...state_obj,
-        room_ix: -1,
-      };
-    });
-  };
+  const joinRoom = emitJoinRoom;
+  const outRoom = emitOutRoom;
+  const becomePlayer = emitBecomePlayer;
+  const becomeViewer = emitBecomeViewer;
 
-  const becomePlayer = () => {
-    socket.emit("become_player");
-    socket.on("become_player", (user_id: number) => {
-      setStateObj((state_obj) => {
-        const rooms = [...state_obj.rooms];
-        rooms[state_obj.room_ix].id_players.push(user_id);
-
-        return {
-          ...state_obj,
-          rooms: rooms,
-        };
-      });
-    });
-  };
-
-  const becomeViewer = () => {
-    socket.emit("become_viewer");
-    socket.on("become_viewer", (user_id: number) => {
-      setStateObj((state_obj) => {
-        const rooms = [...state_obj.rooms];
-        const id_player_ix = rooms.findIndex((item) => item.id === user_id);
-        rooms[state_obj.room_ix].id_players.splice(id_player_ix);
-
-        return {
-          ...state_obj,
-          rooms: rooms,
-        };
-      });
-    });
-  };
-
-  // ----
-
-  const changeIsBonus = (_is_bonus = true) => {
-    setStateObj((state_obj) => ({
-      ...state_obj,
-      ...getInitialGame(_is_bonus),
-      is_bonus: _is_bonus,
-    }));
-  };
-
-  //
-  const handlePick: handlePickType = (_icon_name) => {
-    setStateObj((state_obj) => ({
-      ...state_obj,
-      icon_name: _icon_name,
-    }));
-
-    setTimeout(() => {
-      setStateObj((state_obj) => {
-        const { icon_name_arr } = state_obj;
-        const new_house_icon =
-          icon_name_arr[Math.round(Math.random() * (icon_name_arr.length - 1))];
-
-        const _change_score = getChangeScore(
-          new_house_icon,
-          state_obj.icon_name,
-          state_obj.is_bonus
-        );
-        const _score = state_obj.score + _change_score;
-
-        return {
-          ...state_obj,
-          house_icon: new_house_icon,
-          change_score: _change_score,
-          score: _score >= 0 ? _score : 0,
-        };
-      });
-    }, 500);
-  };
-
-  const playAgain = () => {
-    setStateObj((state_obj) => ({
-      ...state_obj,
-      ...getInitialGame(state_obj.is_bonus),
-      change_score: 0,
-      is_bonus: state_obj.is_bonus,
-      house_icon: undefined,
-      icon_name: undefined,
-    }));
-  };
+  const playGame = emitStartPlay;
+  const changeIsBonus = emitChangeIsBonus;
+  const handlePick = emitPick;
+  const handleVote = emitVote;
+  const playAgain = emitRestart;
 
   // ---
 
   return {
-    ...state_obj,
     socket,
+    ...state_obj,
 
+    room,
+    player1,
+    player2,
+    is_player1,
+    is_player2,
+    is_player,
+
+    handleRegister,
     handleLogin,
+    handleLoginSavedAccount,
+
     joinRoom,
     outRoom,
     becomePlayer,
     becomeViewer,
 
+    playGame,
     changeIsBonus,
     handlePick,
+    handleVote,
     playAgain,
   };
 }

@@ -6,7 +6,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 
 // vendor
-const VENDOR_LIBS = ["react", "react-dom", "react-router-dom", "axios"];
+const VENDOR_LIBS = ["react", "react-dom", "react-router-dom"];
 
 //devServer
 const devServer = {
@@ -23,8 +23,8 @@ const devServer = {
 };
 
 //
-// const is_prod = process.env.ENVIRONMENT === "production";
-  const is_prod = true;
+const is_prod = process.env.ENVIRONMENT === "production";
+  // const is_prod = true;
 
 // Config
 const config = {
