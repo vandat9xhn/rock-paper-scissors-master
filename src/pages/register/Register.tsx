@@ -9,20 +9,26 @@ export interface RegisterProps {
 
 //
 function Register({ handleRegister }: RegisterProps) {
-  //
-  const refUsername = React.useRef<HTMLInputElement>(null);
-  const refPassword = React.useRef<HTMLInputElement>(null);
-  const refName = React.useRef<HTMLInputElement>(null);
+  const [state_obj, setStateObj] = React.useState({
+    username: "",
+    password: "",
+    name: "",
+  });
 
-  //
+  // ----
+
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    setStateObj((state_obj) => ({
+      ...state_obj,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
   const onRegister: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
+    const { username, password, name } = state_obj;
 
-    const username = refUsername.current.value;
-    const password = refPassword.current.value;
-    const name = refName.current.value.trim();
-
-    if (username && password && name) {
+    if (username && password) {
       handleRegister(username, password, name);
     }
   };
@@ -30,32 +36,58 @@ function Register({ handleRegister }: RegisterProps) {
   //
   return (
     <div className="Register">
-      <form>
-        <div>
-          <div>Username</div>
+      <form className="Register_form">
+        <div className="account-field">
+          <div className="account-label">Username</div>
 
           <div>
-            <input ref={refUsername} type="text" />
+            <input
+              className="account-input"
+              type="text"
+              name="username"
+              value={state_obj.username}
+              onChange={handleChange}
+            />
           </div>
         </div>
 
-        <div>
-          <div>Password</div>
+        <div className="account-field">
+          <div className="account-label">Password</div>
 
           <div>
-            <input ref={refPassword} type="text" />
+            <input
+              className="account-input"
+              type="password"
+              name="password"
+              value={state_obj.password}
+              onChange={handleChange}
+            />
           </div>
         </div>
 
-        <div>
-          <div>Your Name</div>
+        <div className="account-field">
+          <div className="account-label">Name</div>
 
           <div>
-            <input ref={refName} type="text" />
+            <input
+              className="account-input"
+              type="text"
+              name="name"
+              value={state_obj.name}
+              onChange={handleChange}
+            />
           </div>
         </div>
 
-        <button type="submit" onClick={onRegister}>
+        <button
+          className={`account-btn ${
+            !state_obj.username || !state_obj.password || !state_obj.name
+              ? "account-btn-disable"
+              : ""
+          }`}
+          type="submit"
+          onClick={onRegister}
+        >
           Register
         </button>
       </form>

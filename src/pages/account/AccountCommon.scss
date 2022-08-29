@@ -1,0 +1,35 @@
+.account-field {
+  margin-bottom: 20px;
+}
+// .
+.account-input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 10px;
+  outline: none;
+}
+
+.account-btn {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 10px;
+  background-color: rgb(49, 49, 240);
+
+  text-align: center;
+  font-size: inherit;
+  color: inherit;
+
+  user-select: none;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.95;
+  }
+  &:active {
+    transform: scale(0.95);
+  }
+}
+.account-btn-disable {
+  pointer-events: none;
+  opacity: 0.5;
+}

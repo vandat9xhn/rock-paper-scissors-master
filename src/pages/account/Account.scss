@@ -1,0 +1,24 @@
+.Account {
+  width: 400px;
+  max-width: 100%;
+  padding: 20px;
+  border: 2px solid hsl(217, 16%, 45%);
+  border-radius: 12px;
+}
+
+.Account_btn {
+  margin-top: 10px;
+  background-color: transparent;
+  border: none;
+  color: inherit;
+
+  cursor: pointer;
+}
+
+// ---
+
+.device-mobile {
+  .Account {
+    border: none;
+  }
+}
