@@ -30,7 +30,7 @@ export const useLogin = ({ handleNewStateObj }: useLoginProps) => {
 
   const emitLogin: handleLoginType = (username, password) => {
     socket.emit(SOCKET_EVENTS.LOGIN, username, password);
-    console.log(1);
+    // console.log(1);
   };
 
   const onLoginSuccess = () => {

@@ -2,7 +2,12 @@ import { AppPropsStateObj, Room } from "../type";
 import { socket } from "../getSocket";
 
 import { getInitialGame } from "../data/icons";
-import { getIxRoom, getIxUser } from "../utils/getIndex";
+import {
+  getIxPlayer,
+  getIxRoom,
+  getIxUser,
+  getIxViewer,
+} from "../utils/getIndex";
 import { SOCKET_EVENTS } from "../data/socket_events";
 
 //
@@ -22,12 +27,24 @@ export const useJoinRoom = ({ handleNewStateObj }: useJoinRoomType) => {
         const ix_room = getIxRoom(rooms, id_room);
         const ix_user = getIxUser(state_obj.users, id_user);
         const user = state_obj.users[ix_user];
+        const room = rooms[ix_room];
 
-        rooms[ix_room].viewers.push({
-          id: user.id,
-          name: user.name,
-          id_be_winner: 0,
-        });
+        const ix_viewer = getIxViewer(room, id_user);
+        const ix_player = getIxPlayer(room, id_user);
+
+        // When Gaming: user logout then login again in the room
+        if (ix_viewer >= 0) {
+          room.viewers[ix_viewer].online = true;
+        } else if (ix_player >= 0) {
+          room.players[ix_player].online = true;
+        } else {
+          room.viewers.push({
+            id: user.id,
+            name: user.name,
+            id_be_winner: 0,
+            online: true,
+          });
+        }
 
         return {
           ...state_obj,
@@ -41,8 +58,6 @@ export const useJoinRoom = ({ handleNewStateObj }: useJoinRoomType) => {
 
   const onUserJoinRoom = () => {
     socket.on(SOCKET_EVENTS.USER_JOIN_ROOM, (room: Room) => {
-      console.log(room);
-      
       handleNewStateObj((state_obj) => {
         const rooms = [...state_obj.rooms];
         const ix_room = getIxRoom(rooms, room.id);

@@ -27,6 +27,7 @@ export const useBecomeViewer = ({ handleNewStateObj }: useBecomeViewerType) => {
             id: player.id,
             name: player.name,
             id_be_winner: 0,
+            online: true
           };
           room.viewers.push(viewer);
 

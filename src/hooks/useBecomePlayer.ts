@@ -30,6 +30,7 @@ export const useBecomePlayer = ({ handleNewStateObj }: useBecomePlayerType) => {
             icon_name: undefined,
             is_winner: false,
             count_predict_winner: 0,
+            online: true,
           };
           room.players.push(player);
 

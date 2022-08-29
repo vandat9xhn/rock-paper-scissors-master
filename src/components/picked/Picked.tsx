@@ -57,14 +57,15 @@ function Picked({}: PickedProps) {
   const ending = room.playing_state === "ending";
   const is_player1_win = player1 && player1.is_winner;
   const is_player2_win = player2 && player2.is_winner;
+  const no_winner = !is_player1_win && !is_player2_win && !!player1.icon_name;
   const is_you_win =
-    (is_player1 && is_player1_win) || (is_player2 && is_player2_win);
-  const win_str =
-    room.winner_name === ""
-      ? "no winner"
-      : `${
-          is_you_win ? "you" : is_player1_win ? player1.name : player2.name
-        } win`;
+    !no_winner &&
+    ((is_player1 && is_player1_win) || (is_player2 && is_player2_win));
+  const win_str = no_winner
+    ? "no winner"
+    : `${
+        is_you_win ? "you" : is_player1_win ? player1.name : player2.name
+      } win`;
 
   //
   return (

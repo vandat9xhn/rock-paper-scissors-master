@@ -11,7 +11,7 @@ export const useVote = ({ handleNewStateObj }: useVoteType) => {
   //
   const emitVote = (id_be_winner = 0) => {
     socket.emit(SOCKET_EVENTS.VOTE, id_be_winner);
-    console.log('vote');
+    // console.log('vote');
     
   };
 

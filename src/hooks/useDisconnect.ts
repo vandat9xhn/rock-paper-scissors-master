@@ -8,6 +8,11 @@ import {
   removeUserViewer,
 } from "../utils/removeUser";
 import { makeResult } from "../utils/MakeResult";
+import { makeRestart } from "../utils/makeRestart";
+import {
+  handleGamingPlayerOff,
+  handleGamingViewerOff,
+} from "../utils/handleGamingUserOff";
 
 //
 interface useDisconnectType extends AppPropsStateObj {}
@@ -29,7 +34,6 @@ export const useDisconnect = ({ handleNewStateObj }: useDisconnectType) => {
     });
   };
 
-  //
   const onPlayerDisconnect = () => {
     socket.on(
       SOCKET_EVENTS.PLAYER_DISCONNECT,
@@ -50,7 +54,6 @@ export const useDisconnect = ({ handleNewStateObj }: useDisconnectType) => {
     );
   };
 
-  //
   const onViewerDisconnect = () => {
     socket.on(
       SOCKET_EVENTS.VIEWER_DISCONNECT,
@@ -71,9 +74,32 @@ export const useDisconnect = ({ handleNewStateObj }: useDisconnectType) => {
     );
   };
 
-  const onPlayingDisconnect = () => {
+  const onGamingViewerDisconnect = () => {
     socket.on(
-      SOCKET_EVENTS.PLAYING_DISCONNECT,
+      SOCKET_EVENTS.GAMING_VIEWER_DISCONNECT,
+      (id_room: number, id_user_disconnect: number) => {
+        handleNewStateObj((state_obj) => {
+          const rooms = [...state_obj.rooms];
+          const users = [...state_obj.users];
+          const ix_room = getIxRoom(rooms, id_room);
+          const room = rooms[ix_room];
+
+          handleGamingViewerOff(room, id_user_disconnect);
+          removeUser(users, id_user_disconnect);
+
+          return {
+            ...state_obj,
+            rooms: rooms,
+            users: users,
+          };
+        });
+      }
+    );
+  };
+
+  const onGamingPlayerDisconnect = () => {
+    socket.on(
+      SOCKET_EVENTS.GAMING_PLAYER_DISCONNECT,
       (
         id_room: number,
         room_picks: (IconName | "")[],
@@ -89,7 +115,8 @@ export const useDisconnect = ({ handleNewStateObj }: useDisconnectType) => {
             obj_id_score,
             state_obj,
           });
-          removeUserPlayer(users, rooms[ix_room], id_user_disconnect);
+          handleGamingPlayerOff(rooms[ix_room], id_user_disconnect);
+          removeUser(users, id_user_disconnect);
 
           return {
             ...state_obj,
@@ -107,6 +134,7 @@ export const useDisconnect = ({ handleNewStateObj }: useDisconnectType) => {
     onUserDisconnect,
     onViewerDisconnect,
     onPlayerDisconnect,
-    onPlayingDisconnect,
+    onGamingPlayerDisconnect,
+    onGamingViewerDisconnect,
   };
 };

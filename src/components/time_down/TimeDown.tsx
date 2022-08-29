@@ -18,7 +18,7 @@ function TimeDown({
 
   //
   React.useEffect(() => {
-    console.log(time);
+    // console.log(time);
     
     const interval = setInterval(() => {
       setTime((time) => {

@@ -26,7 +26,7 @@ function Result({ is_player1, win_str, playAgain }: ResultProps) {
           >
             <span>PLAY AGAIN</span>{" "}
             <span>
-              (<TimeDown time_start={5} />)
+              (<TimeDown time_start={8} />)
             </span>
           </button>
         </div>

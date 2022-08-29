@@ -11,7 +11,12 @@ export interface User {
 export interface Room {
   id: number;
   name: string;
-  viewers: { id: number; name: string; id_be_winner: number }[];
+  viewers: {
+    id: number;
+    name: string;
+    id_be_winner: number;
+    online: boolean;
+  }[];
   players: {
     id: number;
     name: string;
@@ -19,14 +24,11 @@ export interface Room {
     icon_name?: IconName;
     is_winner: boolean;
     count_predict_winner: number;
+    online: boolean;
   }[];
   playing_state: "waiting" | "playing" | "ending";
   playing_time: number;
   is_bonus: boolean;
-  winner_name: string;
-  defeater_name: string;
-  // winner_id: number;
-  // defeater_id: number;
 }
 export type handleRegisterType = (
   username: string,

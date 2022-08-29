@@ -87,7 +87,8 @@ export function useGame() {
     onUserDisconnect,
     onViewerDisconnect,
     onPlayerDisconnect,
-    onPlayingDisconnect,
+    onGamingPlayerDisconnect,
+    onGamingViewerDisconnect,
   } = useDisconnect({
     handleNewStateObj: setStateObj,
   });
@@ -117,7 +118,8 @@ export function useGame() {
       onUserDisconnect();
       onViewerDisconnect();
       onPlayerDisconnect();
-      onPlayingDisconnect();
+      onGamingPlayerDisconnect();
+      onGamingViewerDisconnect()
     } else {
       removeEventsSocket([
         SOCKET_EVENTS.JOIN_ROOM,
@@ -135,7 +137,8 @@ export function useGame() {
         SOCKET_EVENTS.USER_DISCONNECT,
         SOCKET_EVENTS.VIEWER_DISCONNECT,
         SOCKET_EVENTS.PLAYER_DISCONNECT,
-        SOCKET_EVENTS.PLAYING_DISCONNECT,
+        SOCKET_EVENTS.GAMING_PLAYER_DISCONNECT,
+        SOCKET_EVENTS.GAMING_VIEWER_DISCONNECT,
       ]);
     }
   }, [!state_obj.user]);
