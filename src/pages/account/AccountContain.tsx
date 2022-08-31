@@ -2,7 +2,6 @@ import * as React from "react";
 
 import { handleLoginType, handleRegisterType } from "../../type";
 
-import Portal from "../../components/portal/Portal";
 import Login from "../login/Login";
 import Register from "../register/Register";
 
@@ -11,17 +10,12 @@ import "./Account.scss";
 
 //
 export interface AccountContainProps {
-  fetching: boolean;
   handleLogin: handleLoginType;
   handleRegister: handleRegisterType;
 }
 
 //
-function AccountContain({
-  fetching,
-  handleLogin,
-  handleRegister,
-}: AccountContainProps) {
+function AccountContain({ handleLogin, handleRegister }: AccountContainProps) {
   //
   const [login_or_register, setLoginOrRegister] = React.useState(true);
 
@@ -35,14 +29,6 @@ function AccountContain({
 
   return (
     <div className="Account">
-      {fetching ? (
-        <Portal>
-          <div className="wh-100per" style={{ position: "fixed" }}>
-            Fetching...
-          </div>
-        </Portal>
-      ) : null}
-
       <div className={`${login_or_register ? "" : "display-none"}`}>
         <Login handleLogin={handleLogin}></Login>
       </div>

@@ -2,9 +2,10 @@ import * as React from "react";
 
 import { IS_MOBILE } from "./constant";
 
-import ContextAPIComponent from "./context/ContextAPIComponent";
 import Layout from "./components/layout/Layout";
 import Pages from "./pages/Pages";
+import ModalUserInfo from "./components/modal/user_info/ModalUserInfo";
+import ModalFetching from "./components/modal/fetching/ModalFetching";
 
 import "./styles/style.scss";
 
@@ -23,15 +24,16 @@ function App({}: AppProps) {
 
   //
   return (
-    <ContextAPIComponent>
-      <div className="App">
-        <Layout>
-          <div className="flex justify-center">
-            <Pages />
-          </div>
-        </Layout>
-      </div>
-    </ContextAPIComponent>
+    <div className="App">
+      <Layout>
+        <div className="flex justify-center">
+          <Pages />
+        </div>
+      </Layout>
+
+      <ModalUserInfo />
+      <ModalFetching />
+    </div>
   );
 }
 

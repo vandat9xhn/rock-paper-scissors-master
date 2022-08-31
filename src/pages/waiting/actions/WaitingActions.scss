@@ -1,0 +1,13 @@
+.WaitingActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.WaitingActions_btn {
+  background-color: transparent;
+  cursor: pointer;
+}
+.WaitingActions_btn-disabled {
+  display: none;
+}

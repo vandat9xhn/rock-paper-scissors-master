@@ -4,6 +4,8 @@ import contextAPI from "../../context/contextAPI";
 
 import TimeDown from "../time_down/TimeDown";
 
+import "./TimePlaying.scss";
+
 //
 export interface TimePlayingProps {}
 
@@ -14,17 +16,8 @@ function TimePlaying({}: TimePlayingProps) {
 
   //
   return (
-    <div
-      style={{
-        position: "fixed",
-        left: "50%",
-        top: 0,
-        transform: "translateX(-50%)",
-      }}
-    >
-      <div>
-        <TimeDown time_start={room.playing_time} />
-      </div>
+    <div className="TimePlaying">
+      <TimeDown time_start={room.playing_time} />
     </div>
   );
 }

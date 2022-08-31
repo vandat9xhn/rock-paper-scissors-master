@@ -12,9 +12,7 @@ import Voting from "../../components/voting/Voting";
 import "./Game.scss";
 
 //
-export interface GameProps {
-  is_player: boolean;
-}
+export interface GameProps {}
 
 //
 function Game({}: GameProps) {
@@ -29,7 +27,7 @@ function Game({}: GameProps) {
 
   //
   return (
-    <div>
+    <div className="Game">
       <div className="Game_score">
         <Score />
       </div>
@@ -50,9 +48,7 @@ function Game({}: GameProps) {
             <Choices />
           </div>
         ) : (
-          <div>
-            <Voting />
-          </div>
+          <Voting />
         )}
       </div>
 

@@ -58,6 +58,8 @@ export interface AppStateObj {
   icon_name_arr: IconName[];
   icons_obj: IconsObj;
   game_name: string;
+
+  id_user_info: number;
 }
 
 export interface AppPropsStateObj {

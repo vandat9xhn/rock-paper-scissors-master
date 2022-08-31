@@ -1,0 +1,47 @@
+// ----
+
+.waiting-users {
+  height: 100%;
+  padding: 10px;
+  border: 2px solid rgb(62, 255, 223);
+  border-radius: 5px;
+}
+
+.waiting-title {
+  padding: 8px;
+  text-transform: uppercase;
+}
+
+// ----
+
+.Waiting_actions {
+  margin-bottom: 10px;
+}
+
+.Waiting {
+  width: 720px;
+  max-width: 100%;
+}
+
+.Waiting_row {
+  display: flex;
+}
+
+.Waiting_col {
+  width: 50%;
+  padding: 5px;
+}
+
+// ----
+.device-mobile {
+  .Waiting {
+    width: 100%;
+  }
+
+  .Waiting_row {
+    display: block;
+  }
+  .Waiting_col {
+    width: 100%;
+  }
+}

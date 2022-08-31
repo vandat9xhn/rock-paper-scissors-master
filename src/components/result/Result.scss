@@ -5,11 +5,24 @@
 
 .Result_win {
   margin-bottom: 10px;
-  font-size: 30px;
+  font-size: 27px;
+  text-transform: uppercase;
 }
 
 .Result_btn {
-  padding: 8px 40px;
-  border: none;
+  padding: 12px 40px;
+  border: 2px solid white;
   border-radius: 5px;
+
+  &:hover{
+    background-color: rgba(0, 0, 0, 0.25);
+  }
+}
+
+// ----
+
+.device-mobile{
+  .Result_win{
+    font-size: 20px;
+  }
 }

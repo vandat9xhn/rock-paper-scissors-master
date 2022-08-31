@@ -71,7 +71,7 @@ function Picked({}: PickedProps) {
   return (
     <div className="Picked">
       <div className="Picked_row flex">
-        <div className="Picked_col">
+        <div className="Picked_col Picked_col-left">
           <div className="Picked_title text-center">
             {is_player1 ? "you" : player1 ? player1.name : "player1"} picked
           </div>
@@ -93,7 +93,7 @@ function Picked({}: PickedProps) {
           </div>
         )}
 
-        <div className="Picked_col">
+        <div className="Picked_col Picked_col-right">
           <div className="Picked_title text-center">
             {is_player2 ? "you" : player2 ? player2.name : "PLAYER2"} PICKED
           </div>

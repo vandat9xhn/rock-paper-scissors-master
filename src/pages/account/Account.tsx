@@ -10,15 +10,8 @@ export interface AccountProps {}
 //
 function Account({}: AccountProps) {
   //
-  const {
-    logging_saved_account,
-    logging,
-    registering,
-
-    handleLoginSavedAccount,
-    handleLogin,
-    handleRegister,
-  } = React.useContext(contextAPI);
+  const { handleLoginSavedAccount, handleLogin, handleRegister } =
+    React.useContext(contextAPI);
 
   //
   React.useEffect(() => {
@@ -28,11 +21,7 @@ function Account({}: AccountProps) {
   //-----
 
   return (
-    <AccountContain
-      fetching={logging_saved_account || logging || registering}
-      handleLogin={handleLogin}
-      handleRegister={handleRegister}
-    />
+    <AccountContain handleLogin={handleLogin} handleRegister={handleRegister} />
   );
 }
 

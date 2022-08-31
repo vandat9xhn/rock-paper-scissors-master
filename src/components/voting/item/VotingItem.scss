@@ -1,3 +1,65 @@
+.VotingItem {
+  text-align: center;
+}
+
+.VotingItem_name {
+  margin-bottom: 10px;
+  font-size: 27px;
+}
+
+.VotingItem_pick {
+  color: #01ffff;
+}
+.VotingItem_picking {
+  animation: picking 1s ease-in infinite;
+}
+
+.VotingItem_count {
+  margin: 10px 0;
+  color: rgb(253 255 140);
+}
+
+.VotingItem_btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px;
+  border: 2px solid rgb(187, 192, 255);
+  border-radius: 5px;
+
+  text-transform: uppercase;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.96;
+  }
+  &:active {
+    transform: scale(0.96);
+  }
+}
 .VotingItem_btn-active {
   background-color: rgb(12, 238, 12);
+}
+.VotingItem_btn-disabled {
+  pointer-events: none;
+}
+
+// ----
+
+@keyframes picking {
+  0% {
+    color: white;
+  }
+  50% {
+    color: #01ffff;
+  }
+  100% {
+    color: white;
+  }
+}
+
+// ----
+
+.device-mobile{
+  .VotingItem_name{
+    font-size: 24px;
+  }
 }

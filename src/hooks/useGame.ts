@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { AppStateObj } from "../type";
-import { socket } from "../getSocket";
+// import { socket } from "../getSocket";
 
 import { useLogin } from "./useLogin";
 import { useLogout } from "./useLogout";
@@ -18,6 +18,7 @@ import { useRestart } from "./useRestart";
 import { useDisconnect } from "./useDisconnect";
 import { SOCKET_EVENTS } from "../data/socket_events";
 import { removeEventsSocket } from "../utils/removeEventsSocket";
+import { getMoreStateObj } from "../utils/getMoreStateObj";
 
 //
 export function useGame() {
@@ -32,15 +33,13 @@ export function useGame() {
     icon_name_arr: [],
     icons_obj: {},
     game_name: "",
+
+    id_user_info: -1,
   });
 
   //
-  const room = state_obj.rooms[state_obj.ix_room];
-  const player1 = room ? room.players[0] : undefined;
-  const player2 = room ? room.players[1] : undefined;
-  const is_player1 = player1 ? player1.id === state_obj.user.id : undefined;
-  const is_player2 = player2 ? player2.id === state_obj.user.id : undefined;
-  const is_player = is_player1 || is_player2;
+  const { room, player1, player2, is_player1, is_player2, is_player } =
+    getMoreStateObj(state_obj);
 
   // ----
 
@@ -103,7 +102,7 @@ export function useGame() {
   React.useEffect(() => {
     if (!!state_obj.user) {
       onJoinRoom();
-      onUserJoinRoom()
+      onUserJoinRoom();
       onOutRoom();
       onBecomePlayer();
       onBecomeViewer();
@@ -119,7 +118,7 @@ export function useGame() {
       onViewerDisconnect();
       onPlayerDisconnect();
       onGamingPlayerDisconnect();
-      onGamingViewerDisconnect()
+      onGamingViewerDisconnect();
     } else {
       removeEventsSocket([
         SOCKET_EVENTS.JOIN_ROOM,
@@ -160,10 +159,26 @@ export function useGame() {
   const handleVote = emitVote;
   const playAgain = emitRestart;
 
+  // ----
+
+  const openUserInfo = (id_user: number) => {
+    setStateObj((state_obj) => ({
+      ...state_obj,
+      id_user_info: id_user,
+    }));
+  };
+
+  const closeUserInfo = () => {
+    setStateObj((state_obj) => ({
+      ...state_obj,
+      id_user_info: -1,
+    }));
+  };
+
   // ---
 
   return {
-    socket,
+    // socket,
     ...state_obj,
 
     room,
@@ -187,6 +202,9 @@ export function useGame() {
     handlePick,
     handleVote,
     playAgain,
+
+    openUserInfo,
+    closeUserInfo,
   };
 }
 

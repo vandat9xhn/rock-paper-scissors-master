@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import contextAPI from "../../context/contextAPI";
+import UserBtn from "../user_btn/UserBtn";
 
 import "./Layout.scss";
 
@@ -14,7 +15,7 @@ function Layout({ children }: LayoutProps) {
   //
   const { user, users } = React.useContext(contextAPI);
 
-  const users_sort = [...users].sort((a, b) => b.score - a.score)
+  const users_sort = [...users].sort((a, b) => b.score - a.score);
 
   //
   return (
@@ -26,7 +27,11 @@ function Layout({ children }: LayoutProps) {
           <div className={`Layout_online_list`}>
             {users_sort.map((item, ix) => (
               <div key={item.id} className="Layout_online_item">
-                {item.name}: {item.score}
+                <UserBtn id_user={item.id}>
+                  <div>
+                    {item.id === user.id ? "You" : item.name}: {item.score}
+                  </div>
+                </UserBtn>
               </div>
             ))}
           </div>

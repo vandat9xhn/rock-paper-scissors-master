@@ -1,3 +1,32 @@
+.Voting {
+  max-width: 100%;
+}
+
+.Voting_title {
+  margin-bottom: 25px;
+  font-size: 30px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .Voting_item {
-  padding: 25px;
+  width: 300px;
+  max-width: 50%;
+  padding: 10px 25px;
+
+  &:first-child {
+    border-right: 2px solid rgba(255, 255, 255, 0.5);
+  }
+}
+
+// -----
+
+.device-mobile {
+  .Voting_title {
+    font-size: 27px;
+  }
+
+  .Voting_item{
+    padding: 20px 15px;
+  }
 }

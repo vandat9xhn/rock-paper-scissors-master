@@ -1,0 +1,26 @@
+.WaitingPlayers{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.WaitingPlayers_play {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px 6px;
+  border-radius: 8px;
+  background-color: rgb(36, 207, 36);
+
+  text-transform: uppercase;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.95;
+  }
+  &:active {
+    transform: scale(0.95);
+  }
+}
+.WaitingPlayers_play-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}

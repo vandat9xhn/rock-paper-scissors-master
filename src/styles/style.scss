@@ -4,10 +4,28 @@
 
 body {
   margin: 0;
+  padding: 0 !important;
   background-image: radial-gradient(hsl(214, 47%, 23%), hsl(237, 49%, 15%));
   font-family: Barlow Semi Condensed;
   font-weight: 600;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+button {
+  color: inherit;
+  border: none;
+  background-color: transparent;
+}
+
+// ---
 
 .App {
   margin: auto;
@@ -24,14 +42,14 @@ body {
 .device-mobile {
   .App {
     width: 375px;
-    padding: 20px;
+    padding: 15px;
     overflow: hidden;
   }
 }
 
 // ------
 
-.display-none{
+.display-none {
   display: none;
 }
 
@@ -71,4 +89,8 @@ body {
 //
 .cursor-pointer {
   cursor: pointer;
+}
+
+.pointer-events-none{
+  pointer-events: none;
 }

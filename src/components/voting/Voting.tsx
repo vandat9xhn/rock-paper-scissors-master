@@ -21,6 +21,7 @@ function Voting({}: VotingProps) {
   const arr_voting = room.players.map((item) => ({
     id_player: item.id,
     player_name: item.name,
+    picked: item.has_pick,
     count_voting: item.count_predict_winner,
   }));
 
@@ -38,6 +39,8 @@ function Voting({}: VotingProps) {
   //
   return (
     <div className="Voting">
+      <h3 className="Voting_title">Voting Winner!</h3>
+
       <div className="Voting_row flex justify-center">
         {arr_voting.map((item, ix) => (
           <div key={item.player_name} className="Voting_item">
