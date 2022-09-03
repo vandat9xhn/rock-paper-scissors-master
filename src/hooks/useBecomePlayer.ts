@@ -37,6 +37,7 @@ export const useBecomePlayer = ({ handleNewStateObj }: useBecomePlayerType) => {
           return {
             ...state_obj,
             rooms: rooms,
+            id_user_event: id_user,
           };
         });
       }

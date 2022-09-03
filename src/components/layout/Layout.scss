@@ -3,17 +3,15 @@
   left: 0;
   top: 0;
 
-  max-height: 100%;
-  overflow-y: auto;
-  padding: 20px 10px;
-  border-radius: 8px;
-
+  width: fit-content;
   color: white;
   cursor: default;
-  
+
   &:hover {
-    background-color: rgba(0, 0, 0, 0.25);
-    
+    width: 220px;
+    max-width: 100%;
+ 
+
     .Layout_online_list {
       display: block;
     }
@@ -21,12 +19,44 @@
 }
 
 .Layout_online_title {
-  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+  padding: 10px;
+  border-radius: 6px;
   font-size: 20px;
 }
 
 .Layout_online_list {
+  position: absolute;
+  top: 0;
+  left: 0;
   display: none;
-  min-width: 200px;
-  max-width: 100%;
+
+  width: inherit;
+  padding-top: 45px;
+  border-radius: 8px;
+  box-shadow:  1px 1px 6px 0px rgba(255, 255, 255, 0.5);
+  background-color: rgb(52, 50, 63);
+}
+// .
+.Layout_online_list_contain{
+  max-height: calc(100vh - 75px);
+  padding: 0px 10px 10px;
+  overflow-y: auto;
+}
+// ..
+.Layout_online_item-active {
+  color: aqua;
+}
+
+// ---
+
+.device-mobile {
+  .Layout_online {
+    position: sticky;
+  }
+
+  .Layout_online_title {
+    font-size: 17px;
+  }
 }

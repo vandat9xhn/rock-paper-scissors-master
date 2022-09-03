@@ -8,7 +8,6 @@ import {
   removeUserViewer,
 } from "../utils/removeUser";
 import { makeResult } from "../utils/MakeResult";
-import { makeRestart } from "../utils/makeRestart";
 import {
   handleGamingPlayerOff,
   handleGamingViewerOff,

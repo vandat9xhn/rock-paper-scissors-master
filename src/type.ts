@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import { ICONS5 } from "./data/icons";
 
 //
@@ -46,9 +44,12 @@ export type playAgainType = () => void;
 // ----
 
 export interface AppStateObj {
+  socket_connected: boolean;
   logging_saved_account?: boolean;
   logging?: boolean;
   registering?: boolean;
+  fetching: boolean;
+  str_fetching?: keyof AppStateObj;
 
   user?: User;
   users: User[];
@@ -62,9 +63,27 @@ export interface AppStateObj {
   id_user_info: number;
 }
 
-export interface AppPropsStateObj {
-  handleNewStateObj: React.Dispatch<React.SetStateAction<AppStateObj>>;
-}
+// ---
+
+type emitFuncType = (...params: any[]) => void;
+type emitFuncReturnType<T extends emitFuncType> = (
+  ...params: Parameters<T>
+) => void;
+export type getEmitFuncType = <T extends emitFuncType>(
+  emitFunc: T,
+  str_fetching?: keyof AppStateObj,
+  handleMoreState?: (state_obj: AppStateObj) => void
+) => emitFuncReturnType<T>;
+
+export type FuncHandleStateObj = (
+  state_obj: AppStateObj
+) => AppStateObj & { id_user_event?: number };
+export type getHandleNewStateObjType = (func: FuncHandleStateObj) => void;
 
 //
+
+export interface AppPropsStateObj {
+  handleNewStateObj: getHandleNewStateObjType;
+}
+
 export type ObjIdScore = { [id: number]: number };

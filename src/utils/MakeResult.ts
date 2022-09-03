@@ -23,13 +23,22 @@ export const makeWinner = (
   room_picks: (IconName | "")[],
   arr_is_winner: boolean[]
 ) => {
+  let id_user_last_picked = 0;
+
   room_picks.forEach((item, ix) => {
-    room.players[ix].icon_name = item || undefined;
-    room.players[ix].has_pick = true;
+    const player = room.players[ix];
+    player.icon_name = item || undefined;
+
+    if (!player.has_pick) {
+      id_user_last_picked = player.id;
+      player.has_pick = true;
+    }
   });
   arr_is_winner.forEach((is_winner, ix) => {
     room.players[ix].is_winner = is_winner;
   });
+
+  return id_user_last_picked;
 };
 
 //
@@ -56,8 +65,8 @@ export const makeResult = ({
   const room = rooms[ix_room];
 
   room.playing_state = "ending";
-  makeWinner(room, room_picks, arr_is_winner);
+  const id_user_last_picked = makeWinner(room, room_picks, arr_is_winner);
   changeUserScore(state_obj.user, users, obj_id_score);
 
-  return { rooms, users, ix_room };
+  return { rooms, users, ix_room, id_user_last_picked };
 };

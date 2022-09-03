@@ -33,6 +33,7 @@ export const useOutRoom = ({ handleNewStateObj }: useOutRoomType) => {
           ...state_obj,
           rooms: rooms,
           ix_room: id_user === state_obj.user.id ? -1 : state_obj.ix_room,
+          id_user_event: id_user,
         };
       });
     });

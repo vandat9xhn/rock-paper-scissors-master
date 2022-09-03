@@ -20,6 +20,10 @@
   word-spacing: 5px;
 }
 
+.Picked_voting {
+  margin-top: 20px;
+}
+
 .Picked_icon {
   width: 175px;
   height: 175px;
@@ -51,9 +55,6 @@
     justify-content: space-between;
   }
 
-  .Picked_col {
-    flex-direction: column-reverse;
-  }
   .Picked_col-left{
     margin-right: 15px;
   }
@@ -62,8 +63,6 @@
   }
 
   .Picked_title {
-    margin-bottom: 0;
-    margin-top: 15px;
     font-size: 13px;
   }
 
@@ -74,6 +73,10 @@
   .Picked_icon-win {
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.025),
       0 0 0 20px rgba(255, 255, 255, 0.05), 0 0 0 40px rgba(255, 255, 255, 0.1);
+  }
+
+  .Picked_voting {
+    margin-top: 15px;
   }
 
   .Picked_result {

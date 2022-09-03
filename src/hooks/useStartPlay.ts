@@ -24,6 +24,7 @@ export const useStartPlay = ({ handleNewStateObj }: useStartPlayType) => {
         return {
           ...state_obj,
           rooms: rooms,
+          id_user_event: room.players[0].id,
         };
       });
     });

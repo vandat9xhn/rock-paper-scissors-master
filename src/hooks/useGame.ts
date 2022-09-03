@@ -1,6 +1,11 @@
 import * as React from "react";
 
-import { AppStateObj } from "../type";
+import {
+  AppStateObj,
+  getEmitFuncType,
+  getHandleNewStateObjType,
+  IconName,
+} from "../type";
 // import { socket } from "../getSocket";
 
 import { useLogin } from "./useLogin";
@@ -19,16 +24,19 @@ import { useDisconnect } from "./useDisconnect";
 import { SOCKET_EVENTS } from "../data/socket_events";
 import { removeEventsSocket } from "../utils/removeEventsSocket";
 import { getMoreStateObj } from "../utils/getMoreStateObj";
+import { socket } from "../getSocket";
 
 //
 export function useGame() {
   //
   const [state_obj, setStateObj] = React.useState<AppStateObj>({
     // user: "",
-    logging_saved_account: true,
+    socket_connected: false,
+    logging_saved_account: false,
     users: [],
     rooms: [],
     ix_room: -1,
+    fetching: false,
 
     icon_name_arr: [],
     icons_obj: {},
@@ -43,43 +51,84 @@ export function useGame() {
 
   // ----
 
+  const getEmitFunc: getEmitFuncType = (
+    emitFunc,
+    str_fetching = "fetching",
+    handleMoreState
+  ) => {
+    return (...params) => {
+      setStateObj((state_obj) => {
+        const new_state_obj = {
+          ...state_obj,
+          [str_fetching]: true,
+          str_fetching: str_fetching,
+        };
+        handleMoreState && handleMoreState(new_state_obj);
+
+        return new_state_obj;
+      });
+      emitFunc(...params);
+    };
+  };
+
+  const getHandleNewStateObj: getHandleNewStateObjType = (func) => {
+    setStateObj((state_obj) => {
+      const { id_user_event, ...new_state_obj } = func(state_obj);
+
+      if (!new_state_obj.str_fetching) {
+        return new_state_obj;
+      }
+
+      return {
+        ...new_state_obj,
+        [new_state_obj.str_fetching]:
+          new_state_obj.user?.id === id_user_event
+            ? false
+            : new_state_obj[new_state_obj.str_fetching],
+        str_fetching: undefined,
+      };
+    });
+  };
+
+  // ----
+
   const { emitRegister, onRegisterFail } = useRegister({
-    handleNewStateObj: setStateObj,
+    handleNewStateObj: getHandleNewStateObj,
   });
   const { emitLoginSaved, emitLogin, onLoginSuccess, onLoginFail } = useLogin({
-    handleNewStateObj: setStateObj,
+    handleNewStateObj: getHandleNewStateObj,
   });
   const { emitLogout, onLogout, onRoomerLogout } = useLogout({
-    handleNewStateObj: setStateObj,
+    handleNewStateObj: getHandleNewStateObj,
   });
 
   const { emitJoinRoom, onJoinRoom, onUserJoinRoom } = useJoinRoom({
-    handleNewStateObj: setStateObj,
+    handleNewStateObj: getHandleNewStateObj,
   });
   const { emitOutRoom, onOutRoom } = useOutRoom({
-    handleNewStateObj: setStateObj,
+    handleNewStateObj: getHandleNewStateObj,
   });
   const { emitBecomePlayer, onBecomePlayer } = useBecomePlayer({
-    handleNewStateObj: setStateObj,
+    handleNewStateObj: getHandleNewStateObj,
   });
   const { emitBecomeViewer, onBecomeViewer } = useBecomeViewer({
-    handleNewStateObj: setStateObj,
+    handleNewStateObj: getHandleNewStateObj,
   });
   const { emitChangeIsBonus, onChangeIsBonus } = useChangeIsBonus({
-    handleNewStateObj: setStateObj,
+    handleNewStateObj: getHandleNewStateObj,
   });
 
   const { emitStartPlay, onStartPlay } = useStartPlay({
-    handleNewStateObj: setStateObj,
+    handleNewStateObj: getHandleNewStateObj,
   });
   const { emitPick, onPick, onPickDone } = usePick({
-    handleNewStateObj: setStateObj,
+    handleNewStateObj: getHandleNewStateObj,
   });
   const { emitVote, onVote } = useVote({
-    handleNewStateObj: setStateObj,
+    handleNewStateObj: getHandleNewStateObj,
   });
   const { emitRestart, onRestart } = useRestart({
-    handleNewStateObj: setStateObj,
+    handleNewStateObj: getHandleNewStateObj,
   });
 
   const {
@@ -89,8 +138,18 @@ export function useGame() {
     onGamingPlayerDisconnect,
     onGamingViewerDisconnect,
   } = useDisconnect({
-    handleNewStateObj: setStateObj,
+    handleNewStateObj: getHandleNewStateObj,
   });
+
+  //
+  React.useEffect(() => {
+    socket.on("connect", () => {
+      setStateObj((state_obj) => ({
+        ...state_obj,
+        socket_connected: true,
+      }));
+    });
+  }, []);
 
   //
   React.useEffect(() => {
@@ -144,20 +203,28 @@ export function useGame() {
 
   // ------ EMIT
 
-  const handleRegister = emitRegister;
+  const handleRegister = getEmitFunc(emitRegister);
   const handleLoginSavedAccount = emitLoginSaved;
-  const handleLogin = emitLogin;
+  const handleLogin = getEmitFunc(emitLogin);
 
-  const joinRoom = emitJoinRoom;
-  const outRoom = emitOutRoom;
-  const becomePlayer = emitBecomePlayer;
-  const becomeViewer = emitBecomeViewer;
+  const joinRoom = getEmitFunc(emitJoinRoom);
+  const outRoom = getEmitFunc(emitOutRoom);
+  const becomePlayer = getEmitFunc(emitBecomePlayer);
+  const becomeViewer = getEmitFunc(emitBecomeViewer);
 
-  const playGame = emitStartPlay;
-  const changeIsBonus = emitChangeIsBonus;
-  const handlePick = emitPick;
-  const handleVote = emitVote;
-  const playAgain = emitRestart;
+  const playGame = getEmitFunc(emitStartPlay);
+  const changeIsBonus = getEmitFunc(emitChangeIsBonus);
+  const handlePick = (icon_name: IconName) => {
+    const pick = getEmitFunc(emitPick, "fetching", (new_state_obj) => {
+      const { is_player1, player1, player2 } = getMoreStateObj(new_state_obj);
+      const player = is_player1 ? player1 : player2;
+      player.icon_name = icon_name;
+    });
+
+    pick(icon_name);
+  };
+  const handleVote = getEmitFunc(emitVote);
+  const playAgain = getEmitFunc(emitRestart);
 
   // ----
 

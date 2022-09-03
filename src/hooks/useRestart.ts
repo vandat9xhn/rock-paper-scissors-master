@@ -15,19 +15,23 @@ export const useRestart = ({ handleNewStateObj }: useRestartType) => {
   };
 
   const onRestart = () => {
-    socket.on(SOCKET_EVENTS.RESTART, (id_room: number) => {
-      handleNewStateObj((state_obj) => {
-        const rooms = [...state_obj.rooms];
-        const ix_room = getIxRoom(rooms, id_room);
-        const room = rooms[ix_room];
-        makeRestart(room);
+    socket.on(
+      SOCKET_EVENTS.RESTART,
+      (id_room: number, playing_time: number) => {
+        handleNewStateObj((state_obj) => {
+          const rooms = [...state_obj.rooms];
+          const ix_room = getIxRoom(rooms, id_room);
+          const room = rooms[ix_room];
+          makeRestart(room, playing_time);
 
-        return {
-          ...state_obj,
-          rooms: rooms,
-        };
-      });
-    });
+          return {
+            ...state_obj,
+            rooms: rooms,
+            id_user_event: room.players[0].id,
+          };
+        });
+      }
+    );
   };
 
   // ----

@@ -23,14 +23,12 @@ export const useLogin = ({ handleNewStateObj }: useLoginProps) => {
     } else {
       handleNewStateObj((state_obj) => ({
         ...state_obj,
-        logging_saved_account: false,
       }));
     }
   };
 
   const emitLogin: handleLoginType = (username, password) => {
     socket.emit(SOCKET_EVENTS.LOGIN, username, password);
-    // console.log(1);
   };
 
   const onLoginSuccess = () => {
@@ -38,15 +36,13 @@ export const useLogin = ({ handleNewStateObj }: useLoginProps) => {
       SOCKET_EVENTS.LOGIN,
       (user: User, users: User[], rooms: Room[]) => {
         handleNewStateObj((state_obj) => {
-          const new_state_obj: AppStateObj = {
+          return {
             ...state_obj,
             user: user,
             users: users,
             rooms: rooms,
-            registering: false,
-            logging: false,
+            id_user_event: user.id,
           };
-          return new_state_obj;
         });
       }
     );

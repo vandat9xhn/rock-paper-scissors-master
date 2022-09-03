@@ -28,6 +28,7 @@ export const useLogout = ({ handleNewStateObj }: useLogoutType) => {
         return {
           ...state_obj,
           users: users,
+          id_user_event: id_user,
         };
       });
     });
@@ -53,6 +54,7 @@ export const useLogout = ({ handleNewStateObj }: useLogoutType) => {
           return {
             ...state_obj,
             rooms: rooms,
+            id_user_event: id_user,
           };
         });
       }

@@ -25,15 +25,20 @@ function Layout({ children }: LayoutProps) {
           <div className="Layout_online_title">Online: {users.length}</div>
 
           <div className={`Layout_online_list`}>
-            {users_sort.map((item, ix) => (
-              <div key={item.id} className="Layout_online_item">
-                <UserBtn id_user={item.id}>
-                  <div>
+            <div className="Layout_online_list_contain">
+              {users_sort.map((item, ix) => (
+                <div
+                  key={item.id}
+                  className={`Layout_online_item ${
+                    item.id === user.id ? "Layout_online_item-active" : ""
+                  }`}
+                >
+                  <UserBtn id_user={item.id}>
                     {item.id === user.id ? "You" : item.name}: {item.score}
-                  </div>
-                </UserBtn>
-              </div>
-            ))}
+                  </UserBtn>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}

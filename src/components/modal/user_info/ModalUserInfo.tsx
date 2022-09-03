@@ -25,7 +25,7 @@ function UserInfo({}: UserInfoProps) {
         <div className="ModalUserInfo_bg" onClick={closeUserInfo}></div>
 
         <div className="ModalUserInfo_contain">
-          <div>Name: {user_info.name}</div>
+          <div className="ModalUserInfo_name">Name: {user_info.name}</div>
 
           <div>Score: {user_info.score}</div>
         </div>

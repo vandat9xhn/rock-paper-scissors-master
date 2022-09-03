@@ -27,13 +27,14 @@ export const useBecomeViewer = ({ handleNewStateObj }: useBecomeViewerType) => {
             id: player.id,
             name: player.name,
             id_be_winner: 0,
-            online: true
+            online: true,
           };
           room.viewers.push(viewer);
 
           return {
             ...state_obj,
             rooms: rooms,
+            id_user_event: id_user,
           };
         });
       }

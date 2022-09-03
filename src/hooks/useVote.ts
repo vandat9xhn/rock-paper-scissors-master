@@ -12,7 +12,6 @@ export const useVote = ({ handleNewStateObj }: useVoteType) => {
   const emitVote = (id_be_winner = 0) => {
     socket.emit(SOCKET_EVENTS.VOTE, id_be_winner);
     // console.log('vote');
-    
   };
 
   const onVote = () => {
@@ -28,12 +27,10 @@ export const useVote = ({ handleNewStateObj }: useVoteType) => {
           room.viewers[ix_viewer].id_be_winner = id_be_winner;
           room.players[ix_player].count_predict_winner += 1;
 
-          console.log(room.players);
-          
-
           return {
             ...state_obj,
             rooms: rooms,
+            id_user_event: id_voter,
           };
         });
       }

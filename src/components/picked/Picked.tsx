@@ -10,30 +10,46 @@ import "./Picked.scss";
 
 //
 const ItemPicking = ({
+  name,
   is_win,
+  online,
   has_pick,
   border,
   src,
+  count_predict_winner,
 }: {
+  name: string;
+  online: boolean;
   is_win: boolean;
   has_pick: boolean;
   src: string;
   border: string;
+  count_predict_winner: number;
 }) => {
   return (
-    <div className="Picked_item flex justify-center items-center">
-      {!has_pick ? (
-        <div className="Picked_item_picking brs-50per"></div>
-      ) : (
-        <div
-          className={`Picked_item_picked Picked_icon ${
-            is_win ? "Picked_icon-win" : ""
-          }`}
-        >
-          <IconItem border={border} src={src} />
-        </div>
-      )}
-    </div>
+    <React.Fragment>
+      <div className="Picked_title text-center">
+        {name} {online ? "picked" : "out"}
+      </div>
+
+      <div className="Picked_item flex justify-center items-center">
+        {!has_pick ? (
+          <div className="Picked_item_picking brs-50per"></div>
+        ) : (
+          <div
+            className={`Picked_item_picked Picked_icon ${
+              is_win ? "Picked_icon-win" : ""
+            }`}
+          >
+            <IconItem border={border} src={src} />
+          </div>
+        )}
+      </div>
+
+      <div className="Picked_voting text-center">
+        {count_predict_winner} vote{count_predict_winner >= 2 ? "s" : ""}
+      </div>
+    </React.Fragment>
   );
 };
 
@@ -57,7 +73,7 @@ function Picked({}: PickedProps) {
   const ending = room.playing_state === "ending";
   const is_player1_win = player1 && player1.is_winner;
   const is_player2_win = player2 && player2.is_winner;
-  const no_winner = !is_player1_win && !is_player2_win && !!player1.icon_name;
+  const no_winner = !is_player1_win && !is_player2_win;
   const is_you_win =
     !no_winner &&
     ((is_player1 && is_player1_win) || (is_player2 && is_player2_win));
@@ -72,14 +88,13 @@ function Picked({}: PickedProps) {
     <div className="Picked">
       <div className="Picked_row flex">
         <div className="Picked_col Picked_col-left">
-          <div className="Picked_title text-center">
-            {is_player1 ? "you" : player1 ? player1.name : "player1"} picked
-          </div>
-
           <ItemPicking
+            name={is_player1 ? "you" : player1.name}
+            online={player1.online}
             is_win={is_player1_win}
             has_pick={player1.has_pick}
             {...icons_obj[player1.icon_name]}
+            count_predict_winner={player1?.count_predict_winner || 0}
           />
         </div>
 
@@ -94,14 +109,13 @@ function Picked({}: PickedProps) {
         )}
 
         <div className="Picked_col Picked_col-right">
-          <div className="Picked_title text-center">
-            {is_player2 ? "you" : player2 ? player2.name : "PLAYER2"} PICKED
-          </div>
-
           <ItemPicking
+            name={is_player2 ? "you" : player2.name}
             is_win={is_player2_win}
+            online={player2.online}
             has_pick={player2.has_pick}
             {...icons_obj[player2.icon_name]}
+            count_predict_winner={player2?.count_predict_winner || 0}
           />
         </div>
       </div>

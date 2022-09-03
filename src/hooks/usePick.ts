@@ -1,6 +1,6 @@
 import { AppPropsStateObj, IconName, ObjIdScore } from "../type";
 import { socket } from "../getSocket";
-import { getIxPlayer } from "../utils/getIndex";
+import { getIxPlayer, getIxRoom } from "../utils/getIndex";
 import { SOCKET_EVENTS } from "../data/socket_events";
 import { makeResult } from "../utils/MakeResult";
 
@@ -12,23 +12,24 @@ export const usePick = ({ handleNewStateObj }: usePickType) => {
   //
   const emitPick = (icon_name: IconName) => {
     socket.emit(SOCKET_EVENTS.PICK, icon_name);
-    handleNewStateObj((state_obj) => {
-      const rooms = [...state_obj.rooms];
-      const room = rooms[state_obj.ix_room];
-      const ix_player = getIxPlayer(room, state_obj.user.id);
-      room.players[ix_player].icon_name = icon_name;
-      room.players[ix_player].has_pick = true;
-
-      return {
-        ...state_obj,
-        rooms: rooms,
-      };
-    });
   };
 
   const onPick = () => {
-    // socket.on("pick", (id_room: number) => {
-    // });
+    socket.on("pick", (id_room: number, id_user: number) => {
+      handleNewStateObj((state_obj) => {
+        const rooms = [...state_obj.rooms];
+        const ix_room = getIxRoom(rooms, id_room);
+        const room = rooms[ix_room];
+        const ix_player = getIxPlayer(room, id_user);
+        room.players[ix_player].has_pick = true;
+
+        return {
+          ...state_obj,
+          rooms: rooms,
+          id_user_event: id_user,
+        };
+      });
+    });
   };
 
   const onPickDone = () => {
@@ -41,7 +42,7 @@ export const usePick = ({ handleNewStateObj }: usePickType) => {
         obj_id_score: ObjIdScore
       ) => {
         handleNewStateObj((state_obj) => {
-          const { rooms, users } = makeResult({
+          const { rooms, users, id_user_last_picked } = makeResult({
             id_room,
             room_picks,
             arr_is_winner,
@@ -53,6 +54,7 @@ export const usePick = ({ handleNewStateObj }: usePickType) => {
             ...state_obj,
             rooms: rooms,
             users: users,
+            id_user_event: id_user_last_picked,
           };
         });
       }

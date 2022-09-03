@@ -6,7 +6,7 @@ import "./UserBtn.scss";
 //
 export interface UserBtnProps {
   id_user?: number;
-  children: string | React.ReactElement;
+  children:React.ReactElement | React.ReactNode;
 }
 
 //

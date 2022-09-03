@@ -68,6 +68,7 @@ export const useJoinRoom = ({ handleNewStateObj }: useJoinRoomType) => {
           rooms: rooms,
           ix_room: ix_room,
           ...getInitialGame(room.is_bonus),
+          id_user_event: state_obj.user.id,
         };
       });
     });

@@ -10,10 +10,10 @@ export const useRegister = ({ handleNewStateObj }: useRegisterType) => {
   //
   const emitRegister: handleRegisterType = (username, password, name) => {
     socket.emit(SOCKET_EVENTS.REGISTER, username, password, name);
-    handleNewStateObj((state_obj) => ({
-      ...state_obj,
-      registering: true,
-    }));
+    // handleNewStateObj((state_obj) => ({
+    //   ...state_obj,
+    //   registering: true,
+    // }));
   };
 
   const onRegisterFail = () => {
