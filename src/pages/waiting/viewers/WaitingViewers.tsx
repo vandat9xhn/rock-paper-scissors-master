@@ -9,7 +9,7 @@ export interface WaitingViewersProps {}
 //
 function WaitingViewers({}: WaitingViewersProps) {
   //
-  const { room } = React.useContext(contextAPI);
+  const { user, room } = React.useContext(contextAPI);
 
   //
   return (
@@ -19,7 +19,7 @@ function WaitingViewers({}: WaitingViewersProps) {
       <div>
         {room.viewers.map((item, ix) => (
           <WaitingUser key={item.id} id_user={item.id}>
-            <div>{item.name}</div>
+            <div>{item.id === user.id ? "You" : item.name}</div>
           </WaitingUser>
         ))}
       </div>

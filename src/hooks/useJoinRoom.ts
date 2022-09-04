@@ -49,7 +49,7 @@ export const useJoinRoom = ({ handleNewStateObj }: useJoinRoomType) => {
         return {
           ...state_obj,
           rooms: rooms,
-          ix_room: ix_room,
+          // ix_room: ix_room,
           ...getInitialGame(rooms[ix_room].is_bonus),
         };
       });

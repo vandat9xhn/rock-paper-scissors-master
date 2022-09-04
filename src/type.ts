@@ -33,7 +33,11 @@ export type handleRegisterType = (
   password: string,
   name: string
 ) => void;
-export type handleLoginType = (username: string, password: string) => void;
+export type handleLoginType = (
+  username: string,
+  password: string,
+  name?: string
+) => void;
 
 //
 export type IconName = keyof typeof ICONS5;

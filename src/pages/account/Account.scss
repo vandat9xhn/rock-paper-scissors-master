@@ -1,9 +1,26 @@
 .Account {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin-top: -45px;
+  height: calc(100vh - 45px);
+}
+
+.Account_contain {
   width: 400px;
   max-width: 100%;
   padding: 20px;
   border: 2px solid hsl(217, 16%, 45%);
   border-radius: 12px;
+}
+
+.Account_users {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  padding: 15px;
 }
 
 .Account_btn {
@@ -19,6 +36,10 @@
 
 .device-mobile {
   .Account {
+    margin-top: -15px;
+    height: calc(100vh - 15px);
+  }
+  .Account_contain {
     border: none;
   }
 }

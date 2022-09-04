@@ -27,8 +27,8 @@ export const useLogin = ({ handleNewStateObj }: useLoginProps) => {
     }
   };
 
-  const emitLogin: handleLoginType = (username, password) => {
-    socket.emit(SOCKET_EVENTS.LOGIN, username, password);
+  const emitLogin: handleLoginType = (username, password, name) => {
+    socket.emit(SOCKET_EVENTS.LOGIN, username, password, name);
   };
 
   const onLoginSuccess = () => {
@@ -59,7 +59,7 @@ export const useLogin = ({ handleNewStateObj }: useLoginProps) => {
   };
 
   const onLoginFail = () => {
-    socket.on(SOCKET_EVENTS.LOGIN_FAIL, () => {
+    socket.on(SOCKET_EVENTS.LOGIN_FAIL, (reason: string) => {
       handleNewStateObj((state_obj) => {
         const new_state_obj: AppStateObj = {
           ...state_obj,
@@ -68,7 +68,7 @@ export const useLogin = ({ handleNewStateObj }: useLoginProps) => {
         };
         return new_state_obj;
       });
-      alert("Login fail");
+      alert("Login fail: " + reason);
     });
   };
 

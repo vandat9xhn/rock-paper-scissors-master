@@ -14,6 +14,7 @@ function Login({ handleLogin }: LoginProps) {
   const [state_obj, setStateObj] = React.useState({
     username: "",
     password: "",
+    name: "",
   });
 
   // ----
@@ -27,10 +28,10 @@ function Login({ handleLogin }: LoginProps) {
 
   const onLogin: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
-    const { username, password } = state_obj;
+    const { username, password, name } = state_obj;
 
     if (username && password) {
-      handleLogin(username, password);
+      handleLogin(username, password, name);
     }
   };
 
@@ -61,6 +62,20 @@ function Login({ handleLogin }: LoginProps) {
               type="password"
               name="password"
               value={state_obj.password}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
+        <div className="account-field">
+          <div className="account-label">Name</div>
+
+          <div>
+            <input
+              className="account-input"
+              type="text"
+              name="name"
+              value={state_obj.name}
               onChange={handleChange}
             />
           </div>

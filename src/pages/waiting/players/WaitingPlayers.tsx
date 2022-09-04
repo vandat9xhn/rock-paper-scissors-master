@@ -11,7 +11,7 @@ export interface WaitingPlayersProps {}
 //
 function WaitingPlayers({}: WaitingPlayersProps) {
   //
-  const { player1, player2, is_player1, playGame } =
+  const { player1, player2, is_player1, is_player2, playGame } =
     React.useContext(contextAPI);
 
   //
@@ -22,11 +22,11 @@ function WaitingPlayers({}: WaitingPlayersProps) {
 
         <div>
           <WaitingUser id_user={player1?.id}>
-            <div> {player1?.name || "No player"}</div>
+            <div> {is_player1 ? "You" : player1?.name || "No player"}</div>
           </WaitingUser>
 
           <WaitingUser id_user={player2?.id}>
-            <div>{player2?.name || "No player"}</div>
+            <div>{is_player2 ? "You" : player2?.name || "No player"}</div>
           </WaitingUser>
         </div>
       </div>

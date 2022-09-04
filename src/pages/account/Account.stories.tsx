@@ -26,7 +26,6 @@ export const LoginSb = () => (
   <div className="App">
     <div className="flex justify-center">
       <AccountContain
-        fetching={false}
         handleLogin={handleLogin}
         handleRegister={handleRegister}
       />
