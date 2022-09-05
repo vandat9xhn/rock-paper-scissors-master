@@ -1,0 +1,49 @@
+.LayoutOnlinePc {
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  width: fit-content;
+  color: white;
+  cursor: default;
+
+  &:hover {
+    width: 220px;
+    max-width: 100%;
+
+    .LayoutOnlinePc_list {
+      display: block;
+    }
+  }
+}
+
+.LayoutOnlinePc_title {
+  position: relative;
+  z-index: 1;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 20px;
+}
+
+.LayoutOnlinePc_list {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+
+  width: inherit;
+  padding-top: 45px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 6px 0px rgba(255, 255, 255, 0.5);
+  background-color: rgb(52, 50, 63);
+}
+// .
+.LayoutOnlinePc_list_contain {
+  max-height: calc(100vh - 75px);
+  padding: 0px 10px 10px;
+  overflow-y: auto;
+}
+// ..
+.LayoutOnlinePc_item-active {
+  color: aqua;
+}

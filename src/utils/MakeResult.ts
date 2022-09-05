@@ -8,7 +8,7 @@ export const changeUserScore = (
   obj_id_score: ObjIdScore
 ) => {
   users.forEach((item) => {
-    if (obj_id_score[item.id]) {
+    if (obj_id_score[item.id] !== undefined) {
       item.score = obj_id_score[item.id];
 
       if (user.id === item.id) {

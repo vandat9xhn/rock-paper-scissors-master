@@ -27,7 +27,9 @@ function App({}: AppProps) {
     <div className="App">
       <Layout>
         <div className="App_pages flex justify-center">
-          <Pages />
+          <div className="App_pages_contain">
+            <Pages />
+          </div>
         </div>
       </Layout>
 

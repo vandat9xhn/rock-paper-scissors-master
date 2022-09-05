@@ -14,7 +14,7 @@ function RoomList({}: RoomListProps) {
 
   //
   return (
-    <div>
+    <div className="RoomList">
       {rooms.map((item, ix) => (
         <div key={item.id} className="RoomList_item">
           <button

@@ -1,6 +1,7 @@
 import { io } from "socket.io-client";
 
-const is_prod = true;
+const is_prod = false;
+const is_story = false;
 const getSocket = () =>
   io(
     is_prod
@@ -11,9 +12,11 @@ const getSocket = () =>
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Headers": "*",
       },
+      closeOnBeforeunload: false,
       // withCredentials: true,
     }
   );
-const socket = getSocket();
+
+const socket = is_story ? null : getSocket();
 
 export { getSocket, socket };

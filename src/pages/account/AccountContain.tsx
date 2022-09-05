@@ -41,7 +41,7 @@ function AccountContain({ handleLogin, handleRegister }: AccountContainProps) {
   return (
     <div className="Account">
       <div
-        className={`Account_users ${
+        className={`Account_users pointer-events-none ${
           arr_id_user.length === 0 ? "display-none" : ""
         }`}
       >

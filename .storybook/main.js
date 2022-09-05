@@ -2,7 +2,7 @@ module.exports = {
   stories: [
     "../src/**/*.stories.mdx",
     // "../src/**/*.stories.@(js|jsx|ts|tsx)"
-    "../src/**/App.stories.@(js|jsx|ts|tsx)",
+    "../src/**/Layout.stories.@(js|jsx|ts|tsx)",
   ],
   addons: [
     "@storybook/preset-scss",

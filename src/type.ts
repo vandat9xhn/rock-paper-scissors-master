@@ -67,6 +67,11 @@ export interface AppStateObj {
   id_user_info: number;
 }
 
+export interface MessageObj {
+  name: string;
+  content: string;
+}
+
 // ---
 
 type emitFuncType = (...params: any[]) => void;

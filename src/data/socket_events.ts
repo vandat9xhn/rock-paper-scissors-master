@@ -11,6 +11,8 @@ export const SOCKET_EVENTS = {
   LOGOUT: "logout",
   ROOMER_LOGOUT: "roomer_logout",
 
+  MESSAGE: 'message',
+
   OUT_ROOM: "out_room",
   JOIN_ROOM: "join_room",
   USER_JOIN_ROOM: "user_join_room",
